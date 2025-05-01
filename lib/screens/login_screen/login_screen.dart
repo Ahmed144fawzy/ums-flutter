@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:unviersty_system/core/colors/app_colors.dart';
 import 'package:unviersty_system/core/images/app_images.dart';
+import 'package:unviersty_system/core/network/login.dart';
 import 'package:unviersty_system/core/routes/page_routes_name.dart';
+import '../../core/storage/storage.dart';
 import '../../core/widget/custom_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,6 +19,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _idController = TextEditingController();
   final _passwordController = TextEditingController();
+
+
+
+  Future<void> checkToken() async{
+    final userToken = await readStorage(key: "token");
+    if(userToken != null){
+      Navigator.pushReplacementNamed(context, PageRoutesName.homeScreen);
+      return;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkToken();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -154,18 +173,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: (){ if(
-                    formKey.currentState!.validate()){
-                      Navigator.pushReplacementNamed(context, PageRoutesName.homeScreen);
-                    }
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        await login(
+                          studentID: _idController.text.trim(),
+                          password: _passwordController.text.trim(),
+                          context: context,
+                        );
+                      }
                     },
-                    child: Text("Login",
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.white,
-                        )
+                    child: Text(
+                      "Login",
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.white,
+                      ),
                     ),
                   ),
+
                 ],
               ),
             ),
