@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:unviersty_system/screens/courses_detalise_screen/quizzes_screen.dart';
 
@@ -10,81 +9,95 @@ import 'assignments_screen.dart';
 import 'materials_screen.dart';
 
 class CoursesDetaliseScreen extends StatefulWidget {
+  final String crn; // استقبال رقم CRN من الشاشة السابقة
+
+  const CoursesDetaliseScreen({
+    super.key,
+    required this.crn,
+  });
+
   @override
   State<CoursesDetaliseScreen> createState() => _CoursesDetaliseScreenState();
 }
 
 class _CoursesDetaliseScreenState extends State<CoursesDetaliseScreen> {
-
-
   int selectedIndex = 0;
-  List<Widget> screensCourses = [
-    const MaterialsScreen(),
-    const AssignmentsScreen(),
-    const QuizzesScreen(),
-    const AnnouncementsScreen(),
+  late List<Widget> screensCourses;
 
-  ];
+  @override
+  void initState() {
+    super.initState();
+    // تمرير CRN لشاشة المواد فقط، والباقي ثابت
+    screensCourses = [
+      MaterialsScreen(crn: widget.crn),
+      AssignmentsScreen(crn: widget.crn),
+      const QuizzesScreen(),
+      AnnouncementsScreen(crn: widget.crn),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Advanced Database"),
+        title: const Text("Course Details"),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {},
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: screensCourses[selectedIndex],
-      bottomNavigationBar:
-      BottomNavigationBar(
-
-          selectedLabelStyle: const TextStyle(fontSize: 12,fontFamily: "Janna",fontWeight: FontWeight.bold),
-          onTap: (index) {
-            setState(() {
-
-              selectedIndex = index;
-            });
-          },
-          currentIndex: selectedIndex,
-          backgroundColor: AppColors.white,
-          type: BottomNavigationBarType.fixed,
-          selectedIconTheme: const IconThemeData(
-            color: AppColors.orange,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+        type: BottomNavigationBarType.fixed,
+        selectedIconTheme: const IconThemeData(color: AppColors.orange),
+        unselectedIconTheme: const IconThemeData(color: AppColors.grey),
+        selectedItemColor: AppColors.orange,
+        unselectedItemColor: AppColors.darkGrey,
+        showUnselectedLabels: true,
+        selectedLabelStyle: const TextStyle(
+          fontSize: 12,
+          fontFamily: "Janna",
+          fontWeight: FontWeight.bold,
+        ),
+        items: [
+          BottomNavigationBarItem(
+            icon: CustomBottomNavBar(
+              iconPath: AppIcons.materialsIcon,
+              isSelected: selectedIndex == 0,
+            ),
+            label: "Materials",
           ),
-          unselectedIconTheme: const IconThemeData(
-            color: AppColors.grey,
+          BottomNavigationBarItem(
+            icon: CustomBottomNavBar(
+              iconPath: AppIcons.assignBookIcon,
+              isSelected: selectedIndex == 1,
+            ),
+            label: "Assignments",
           ),
-          selectedItemColor: AppColors.orange,
-          unselectedItemColor: AppColors.darkGrey,
-          showUnselectedLabels: true,
-          items:[
-            BottomNavigationBarItem(
-              icon: CustomBottomNavBar(iconPath: AppIcons.materialsIcon,
-                isSelected: selectedIndex == 0,),
-              label: "Materials",
+          BottomNavigationBarItem(
+            icon: CustomBottomNavBar(
+              iconPath: AppIcons.quizIcon,
+              isSelected: selectedIndex == 2,
             ),
-            BottomNavigationBarItem(
-              icon: CustomBottomNavBar(iconPath: AppIcons.assignBookIcon,
-                isSelected: selectedIndex == 1,),
-              label: "Assignments",
+            label: "Quizzes",
+          ),
+          BottomNavigationBarItem(
+            icon: CustomBottomNavBar(
+              iconPath: AppIcons.announcementsIcon,
+              isSelected: selectedIndex == 3,
             ),
-            BottomNavigationBarItem(
-              icon: CustomBottomNavBar(iconPath: AppIcons.quizIcon,
-                isSelected: selectedIndex == 2,),
-              label: "Quizzes",
-            ),
-            BottomNavigationBarItem(
-              icon: CustomBottomNavBar(iconPath: AppIcons.announcementsIcon,
-                isSelected: selectedIndex == 3,),
-              label: "Announcements",
-            ),
-          ]
+            label: "Announcements",
+          ),
+        ],
       ),
-
     );
   }
 }
-
-
-

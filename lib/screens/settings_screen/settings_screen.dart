@@ -24,29 +24,6 @@ class SettingsScreen extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: (){
-                Navigator.pushNamed(context, PageRoutesName.personalInformationScreen);
-              },
-              child: Container(
-                height: 56,
-                color: Colors.transparent,
-                child: const Row(
-                  children: [
-                    Text("Personal information",
-                    style: TextStyle(
-                      fontFamily: "Janna",
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: AppColors.black,
-                    ),
-                    ),
-                    Spacer(),
-                    Icon(Icons.arrow_forward_ios,color: AppColors.darkGrey,)
-                  ],
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: (){
                 Navigator.pushNamed(context, PageRoutesName.changePasswordScreen);
               },
               child: Container(

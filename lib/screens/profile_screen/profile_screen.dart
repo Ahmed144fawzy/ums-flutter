@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unviersty_system/core/colors/app_colors.dart';
 import '../../core/icons/app_icons.dart';
+import '../../core/network/login.dart';
 import '../../core/routes/page_routes_name.dart';
 import '../../core/storage/storage.dart';
 
@@ -26,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _loadStudentData() async {
-
+    // قراءة البيانات من SharedPreferences
     final name = await readStorage(key: "student_name");
     final id = await readStorage(key: "student_id");
     final email = await readStorage(key: "student_email");
@@ -34,7 +35,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final level = await readStorage(key: "student_level");
     final department = await readStorage(key: "student_department");
 
-    print("Email: $email, Mobile: $mobile, Level: $level, Dept: $department");
+    // إذا كانت البيانات فارغة، استدعاء دالة getStudentInfo لتحميل البيانات من السيرفر
+    if (name == null || email == null || mobile == null || level == null || department == null) {
+      // احصل على الـ Token من SharedPreferences
+      final token = await readStorage(key: "student_token");
+      if (token != null && id != null) {
+        await getStudentInfo(token: token, studentId: id);
+      }
+    }
+
+    // بعد تحميل البيانات من SharedPreferences (أو السيرفر إذا كانت فارغة)
     setState(() {
       studentName = name ?? "No Name";
       studentID = id ?? "No ID";
@@ -43,6 +53,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       studentLevel = level ?? "N/A";
       studentDepartment = department ?? "N/A";
     });
+
+    // طباعة البيانات للتأكد
+    print("Email: $studentEmail, Mobile: $studentMobile, Level: $studentLevel, Dept: $studentDepartment");
   }
 
   @override

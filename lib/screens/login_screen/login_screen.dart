@@ -150,22 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: mediaQuery.height * 0.01,
                   ),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child:
-                      TextButton(onPressed: (){}, child:
-                      Text("Forget Password?",
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w900,
-                          fontFamily: "Janna",
-                          color: AppColors.orange,
-                          decoration: TextDecoration.underline,
-                          decorationColor: AppColors.orange,
-              
-              
-                        ),)
-                      )
-                  ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.orange,

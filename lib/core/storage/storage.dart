@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 AndroidOptions _getAndroidOptions() => const AndroidOptions(
   encryptedSharedPreferences: true,
@@ -13,6 +14,6 @@ Future<void> deleteStorage({required String key}) async {
   await storage.delete(key: key);
 }
 
-Future<void> writeStorage({required String key , required String value}) async {
+Future<void> writeStorage({required String key, required String value}) async {
   await storage.write(key: key, value: value);
 }

@@ -8,9 +8,7 @@ import 'package:unviersty_system/screens/courses_detalise_screen/announcements_s
 import 'package:unviersty_system/screens/courses_detalise_screen/materials_screen.dart';
 import 'package:unviersty_system/screens/courses_detalise_screen/quizzes_screen.dart';
 import 'package:unviersty_system/screens/language_selection_screen/language_selection_screen.dart';
-import 'package:unviersty_system/screens/news_screen/news_screen.dart';
-import 'package:unviersty_system/screens/personal_information_screen/personal_information_screen.dart';
-import 'package:unviersty_system/screens/profile_screen/profile_screen.dart';
+import 'package:unviersty_system/screens/news_screen/news_screen.dart';import 'package:unviersty_system/screens/profile_screen/profile_screen.dart';
 
 import '../../screens/courses_detalise_screen/assignments_screen.dart';
 import '../../screens/courses_detalise_screen/courses_detalise_screen.dart';
@@ -21,6 +19,7 @@ import '../../screens/login_screen/login_screen.dart';
 import '../../screens/notfication_screen/notification_screen.dart';
 import '../../screens/settings_screen/settings_screen.dart';
 import '../../screens/splash_screen/splash_screen.dart';
+import 'package:unviersty_system/screens/courses_detalise_screen/materials_screen.dart' as materials;
 
 abstract class AppRouts{
   static Route<dynamic> onGenratedRoute(RouteSettings settings){
@@ -77,12 +76,7 @@ abstract class AppRouts{
           );
         }
       case PageRoutesName.changePasswordScreen: {
-        return MaterialPageRoute(builder: (context) => const ChangePasswordScreen(),
-          settings: settings,
-        );
-      }
-      case PageRoutesName.personalInformationScreen: {
-        return MaterialPageRoute(builder: (context) => const PersonalInformationScreen(),
+        return MaterialPageRoute(builder: (context) => ChangePasswordScreen(),
           settings: settings,
         );
       }
@@ -92,14 +86,13 @@ abstract class AppRouts{
         );
       }
       case PageRoutesName.materialsScreen: {
-        return MaterialPageRoute(builder: (context) =>  MaterialsScreen(),
+        return MaterialPageRoute(builder: (context) =>  MaterialsScreen(crn: '',),
           settings: settings,
         );
       }
       case PageRoutesName.assignmentsScreen: {
-        return MaterialPageRoute(builder: (context) =>  AssignmentsScreen(),
-          settings: settings,
-        );
+    final crn = settings.arguments as String;
+    return MaterialPageRoute(builder: (context) => CoursesDetaliseScreen(crn: crn), settings: settings);
       }
       case PageRoutesName.quizzesScreen: {
         return MaterialPageRoute(builder: (context) =>  QuizzesScreen(),
@@ -107,14 +100,12 @@ abstract class AppRouts{
         );
       }
       case PageRoutesName.announcementsScreen: {
-        return MaterialPageRoute(builder: (context) =>  AnnouncementsScreen(),
-          settings: settings,
-        );
+    final crn = settings.arguments as String;
+    return MaterialPageRoute(builder: (context) => AnnouncementsScreen(crn: crn), settings: settings);
       }
       case PageRoutesName.coursesDetaliseScreen: {
-        return MaterialPageRoute(builder: (context) =>  CoursesDetaliseScreen(),
-          settings: settings,
-        );
+        final crn = settings.arguments as String;
+        return MaterialPageRoute(builder: (context) => CoursesDetaliseScreen(crn: crn), settings: settings);
       }
       default: {
         return MaterialPageRoute(builder: (context) => const SplashScreen(),
