@@ -14,7 +14,7 @@ import '../storage/storage.dart';
 import 'package:unviersty_system/screens/news_screen/news_item.dart' as model;
 
 
-const String baseAPI = "http://192.168.1.125:8000/";
+const String baseAPI = "http://172.20.10.8:8000/";
 var client = http.Client();
 
 Future<void> login({
